@@ -10,6 +10,7 @@ class baseCipher:
 	sym = [" ", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "=", "+", "{", "}", "[", "]", "\\", "|", ";", ":", "'", "\"", ",", ".", "<", ">", "/", "?", "`", "~"]
 
 	maxEncryptionRatio = 1
+	outputType = "string"
 
 	def to_cipher(self, message, verbose = False):
 		return message
@@ -109,7 +110,7 @@ class customCipher(baseCipher):
 					
 		#print(f"Warning: Character {character} Not Found.")
 		return -1
-
+	
 	def _compress(self, num):
 		'''
 			output is string
@@ -231,6 +232,13 @@ class customCipher(baseCipher):
 			num = self._uncollide(encryptedMessage.pop(0))
 			encryptedMessage.append(self._convert_to_char(self._decrypt(num[0], num[1])))
 		return ''.join(encryptedMessage)
+	
+class uncompressedCustomCipher(customCipher):
+	def to_cipher(self, message):
+		return self._uncompress(super().to_cipher(message))
+	
+	def from_cipher(self, encryptedMessage):
+		return super().from_cipher(self._compress(encryptedMessage))
 
 class caesarCipher(baseCipher):
 	combinedChars = []
