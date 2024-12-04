@@ -49,7 +49,7 @@ def formatData(encryptor, encryptedDataArray):
 		encryptedDataArray (npArray): single or multi-dimensional array of encryptions with each element being an encryption of a character
 	
 	Returns:
-		(npArray): data with initial shape and each value being an array of numbers representing each encryption
+		(npArray): 2d array with each value being an array of numbers representing each encryption
 	'''
 	initialShape = encryptedDataArray.shape
 	encryptedDataArray = encryptedDataArray.ravel()
@@ -79,17 +79,61 @@ def formatData(encryptor, encryptedDataArray):
 					break
 	else:
 		raise Exception(f"Unable to format data. Encryptor Output Type {encryptor.outputType} not recognized.")
+	return finalArray.reshape((initialShape[0] * initialShape[1], encryptor.maxEncryptionRatio))
 
-	return finalArray.reshape((initialShape[0], initialShape[1], encryptor.maxEncryptionRatio))
+def generateMLDataLabels(formattedDataArray, supportedEncryptorInputs): #supportedEncryptorInputs should be in order of abc, ABC, num, sym
+	'''
+	Generates labels of the given data type for the given data
 
-def generateMLDataLabels(data, supportedEncryptorInputs): #supportedEncryptorInputs should be in order of abc, ABC, num, sym
-	pass
+	Parameters:
+		formattedDataArray (npArray): formatted data array to generate labels for
+		supportedEncryptorInputs (array-like): list of all supported encryptor inputs (abc + ABC + str_num + sym)
+	
+	Returns:
+		npArray: 1 dimensional label array with 1 value for each value in the given data array
+	'''
+	return np.array([[letter for i in range(formattedDataArray.shape[0] // len(supportedEncryptorInputs))] for letter in supportedEncryptorInputs]).ravel()
 
 def randomizeMLData(labels, formattedDataArray):
-	pass
+	'''
+	Randomizes the 1st dimension indicies of the given labels and data in the same way
 
-def splitMLData(labels, formattedDataArray):
-	pass
+	Parameters:
+		labels (npArray): 1 dimensional label array
+		formattedDataArray (npArray): 2d formatted data array
+
+	Returns:
+		npArray: randomized label array
+		npArray: randomized data array
+	'''
+	idx = np.argsort(np.random.random(labels.shape[0]))
+	data = formattedDataArray[idx]
+	
+	labels = labels[idx]
+	return labels, data
+
+def splitMLData(randomizedLabels, randomizedDataArray, testingPercent):
+	'''
+	Splits the given labels and data into testing and training sets
+
+	Parameters:
+		randomizedLabels (npArray): randomized 1 dimensional label array
+		randomizedDataArray (npArray): randomized multidimensional data array
+		testingPercent (float): portion of data that should be used for testing (out of 1)
+
+	Returns:
+		npArray: testing labels
+		npArray: testing data
+		npArray: training labels
+		npArray: training data
+	'''
+	splitNum = int((testingPercent * randomizedLabels.shape[0]) // 1)
+
+	testingLabels = randomizedLabels[:splitNum]
+	testingData = randomizedDataArray[:splitNum]
+	trainingLabels = randomizedLabels[splitNum:]
+	trainingData = randomizedDataArray[splitNum:]
+	return testingLabels, testingData, trainingLabels, trainingData
 
 def generateData(encryptor, encryptionsPerLetter, testingPercent = 0.05):
 	'''
@@ -103,9 +147,21 @@ def generateData(encryptor, encryptionsPerLetter, testingPercent = 0.05):
 		(npArray, npArray): training labels, training data
 		(npArray, npArray): testing labels, testing data
 	'''
+	print(f"Creating Data with TD:L of {encryptionsPerLetter}:1")
 
 	#create raw encryptions
+	encryptedData = createCharacterEncryptions(encryptor, encryptionsPerLetter)
 
 	#format encryptions for training (char to num)
+	print("Formatting Data for Training...")
+	formattedData = formatData(encryptor, encryptedData)
 
-	#create and return testing/training data
+	#create labels
+	labels = generateMLDataLabels(formattedData, encryptor.abc + encryptor.ABC + encryptor.str_num + encryptor.sym)
+
+	#randomize data and labels
+	randomizedLabels, randomizedData = randomizeMLData(labels, formattedData)
+
+	testingLabels, testingData, trainingLabels, trainingData = splitMLData(randomizedLabels, randomizedData, testingPercent)
+	
+	return testingLabels, testingData, trainingLabels, trainingData

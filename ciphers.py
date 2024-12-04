@@ -247,9 +247,7 @@ class caesarCipher(baseCipher):
 	combinedChars = []
 	
 	def __init__(self, lshift = 3): #lshift of 3 is the original cipher shift
-		self.sym = self.sym[1:] #don't inculde space in encryption symbols
-		self.combinedChars = self.abc + self.ABC + self.str_num + self.sym
-
+		self.combinedChars = self.abc + self.ABC + self.str_num + self.sym[1:] #don't inculde space in encryption symbols that change
 		self.lshift = lshift
 	
 	def to_cipher(self, message):
