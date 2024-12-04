@@ -234,6 +234,9 @@ class customCipher(baseCipher):
 		return ''.join(encryptedMessage)
 	
 class uncompressedCustomCipher(customCipher):
+	maxEncryptionRatio = 24
+	outputType = "num"
+
 	def to_cipher(self, message):
 		return self._uncompress(super().to_cipher(message))
 	
