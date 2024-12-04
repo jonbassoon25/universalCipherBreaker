@@ -235,29 +235,31 @@ class customCipher(baseCipher):
 class caesarCipher(baseCipher):
 	combinedChars = []
 	
-	def __init__(self):
+	def __init__(self, lshift = 3): #lshift of 3 is the original cipher shift
+		self.lshift = 3
 		self.sym = self.sym[1:] #don't inculde space in encryption symbols
 		self.combinedChars = self.abc + self.ABC + self.str_num + self.sym
 	
-	def to_cipher(self, message, rshift = 1):
+	def to_cipher(self, message):
 		finalMessage = ""
 		for char in message:
 			if not char in self.combinedChars and not char == " ":
-				raise Exception(f"Character {char} is not a supported character")
+				print(f"Character {char} is not encryptable")
+				char = "_"
 			elif char == " ":
 				finalMessage += char
 			else:
-				finalMessage += self.combinedChars[(self.combinedChars.index(char) + rshift) % len(self.combinedChars)]
+				finalMessage += self.combinedChars[(self.combinedChars.index(char) - self.lshift) % len(self.combinedChars)]
 		return finalMessage
 
-	def from_cipher(self, encryptedMessage, rshift = 1):
+	def from_cipher(self, encryptedMessage):
 		finalMessage = ""
 		for char in encryptedMessage:
 			if not char in self.combinedChars and not char == " ":
-				print(f"Character {char} is not translatable")
+				print(f"Character {char} is not decryptable")
 				finalMessage += "_"
 			elif char == " ":
 				finalMessage += char
 			else:
-				finalMessage += self.combinedChars[(self.combinedChars.index(char) - rshift) % len(self.combinedChars)]
+				finalMessage += self.combinedChars[(self.combinedChars.index(char) + self.lshift) % len(self.combinedChars)]
 		return finalMessage
