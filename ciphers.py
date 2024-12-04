@@ -233,4 +233,31 @@ class customCipher(baseCipher):
 		return ''.join(encryptedMessage)
 
 class caesarCipher(baseCipher):
-	pass
+	combinedChars = []
+	
+	def __init__(self):
+		self.sym = self.sym[1:] #don't inculde space in encryption symbols
+		self.combinedChars = self.abc + self.ABC + self.str_num + self.sym
+	
+	def to_cipher(self, message, rshift = 1):
+		finalMessage = ""
+		for char in message:
+			if not char in self.combinedChars and not char == " ":
+				raise Exception(f"Character {char} is not a supported character")
+			elif char == " ":
+				finalMessage += char
+			else:
+				finalMessage += self.combinedChars[(self.combinedChars.index(char) + rshift) % len(self.combinedChars)]
+		return finalMessage
+
+	def from_cipher(self, encryptedMessage, rshift = 1):
+		finalMessage = ""
+		for char in encryptedMessage:
+			if not char in self.combinedChars and not char == " ":
+				print(f"Character {char} is not translatable")
+				finalMessage += "_"
+			elif char == " ":
+				finalMessage += char
+			else:
+				finalMessage += self.combinedChars[(self.combinedChars.index(char) - rshift) % len(self.combinedChars)]
+		return finalMessage
