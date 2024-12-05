@@ -150,7 +150,7 @@ def generateData(encryptor, encryptionsPerLetter, testingPercent = 0.05):
 	print(f"Creating Data with TD:L of {encryptionsPerLetter}:1")
 
 	#create raw encryptions
-	encryptedData = createCharacterEncryptions(encryptor, encryptionsPerLetter)
+	encryptedData = createCharacterEncryptions(encryptor, round(encryptionsPerLetter * (1 + testingPercent))) #check this formula
 
 	#format encryptions for training (char to num)
 	print("Formatting Data for Training...")

@@ -1,0 +1,17 @@
+dtype-dataFormat-params:
+	training values per letter:
+		score	trainingTime
+
+gini-best:
+	64:
+		0.989	0.0
+		0.978	0.0
+		0.934	0.0
+	128:
+		1.0	0.0
+		1.0	0.0
+		0.989	0.0
+	256:
+		1.0	0.0
+		1.0	0.0
+		1.0	0.0
