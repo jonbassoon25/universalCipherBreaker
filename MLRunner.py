@@ -1,9 +1,6 @@
 import json
 import time
-import numpy as np
-from sklearn.tree import DecisionTreeClassifier
-import ciphers #for testing
-import util
+
 import MLDC
 
 
@@ -40,7 +37,7 @@ def saveRun(encryptorName, clfname, label, score, trainingTime, trainingDataToLe
 		currentRuns[label] = {trainingDataToLetterRatio: [[score, trainingTime]]}
 
 	#create new text to write to the text file
-	textToWrite = "dtype-dataFormat-params:\n\ttraining values per letter:\n\t\tscore\ttrainingTime\n\n"
+	textToWrite = "params:\n\ttraining values per letter:\n\t\tscore\ttrainingTime\n\n"
 	for label in currentRuns.keys():
 		textToWrite += f"{label}:\n"
 		for trainingDataToLetterRatio in currentRuns[label].keys():
@@ -119,5 +116,3 @@ def multiRun(trainingDataToLetterRatios, encryptor, clf, params, trainingReps = 
 
 			print("Saving Run")
 			saveRun(type(encryptor).__name__, type(clf).__name__, params, score, trainingTime, currentTDTLR)
-
-multiRun([64, 128, 256], ciphers.caesarCipher(), DecisionTreeClassifier(), "gini-best", 3)
