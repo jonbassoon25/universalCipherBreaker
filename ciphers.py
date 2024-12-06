@@ -12,6 +12,16 @@ class baseCipher:
 	maxEncryptionRatio = 1
 	outputType = "string"
 
+	def __init__(self, outputType = None, maxEncryptionRatio = None):
+		if not outputType == None:
+			self.outputType = outputType
+
+		if not maxEncryptionRatio == None:
+			self.maxEncryptionRatio = maxEncryptionRatio
+
+	def convert_to_chars(self, encryptedMessage):
+		return list(encryptedMessage)
+
 	def to_cipher(self, message, verbose = False):
 		return message
 
@@ -209,6 +219,18 @@ class customCipher(baseCipher):
 		num2.reverse()
 		return int(''.join(num1) + ''.join(num2))
 	
+	def convert_to_chars(self, encryptedMessage):
+		encryptedChars = []
+		i = 0
+		while i < len(encryptedMessage):
+			if encryptedMessage[i] == " ":
+				encryptedChars.append(encryptedMessage[i:i+3])
+				i += 2
+			else:
+				encryptedChars.append(encryptedMessage[i])
+			i += 1
+		return ["".join(encryptedChars[i:i+12]) for i in range(0, len(encryptedChars), 12)]
+	
 	def to_cipher(self, message, verbose = False):
 		messageLength = len(message)
 		message = self._make_list(message)
@@ -236,6 +258,9 @@ class customCipher(baseCipher):
 class uncompressedCustomCipher(customCipher):
 	maxEncryptionRatio = 24
 	outputType = "num"
+
+	def convert_to_chars(self, encryptedMessage):
+		return [encryptedMessage[i:i+24] for i in range(0, len(encryptedMessage), 24)]
 
 	def to_cipher(self, message):
 		return self._uncompress(super().to_cipher(message))

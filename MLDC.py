@@ -2,7 +2,7 @@
 #creates testing and training data with labels of a given type from a given cipher
 
 import numpy as np
-import ciphers #for testing
+import ciphers
 
 def createSingleCharData(encryptor, char, quantity):
 	'''
@@ -40,21 +40,28 @@ def createCharacterEncryptions(encryptor, encryptionsPerLetter):
 
 	return np.array(characterEncryptions)
 
-def formatData(encryptor, encryptedDataArray):
+def formatData(encryptor, encryptedDataArray, outputType = None, maxEncryptionRatio = None):
 	'''
 	Formats the given data for training
 
 	Parameters:
-		encryptor (cipher): encryptor used to create the encrypted data array
+		encryptor (cipher): encryptor used to create the encrypted data array. None can be used if output type and max encryption ratio are given
 		encryptedDataArray (npArray): single or multi-dimensional array of encryptions with each element being an encryption of a character
+		outputType (str): output type of the encryptor
+		maxEncryptionRatio (int): maximum expansion ratio of a translated message
 	
 	Returns:
 		(npArray): 2d array with each value being an array of numbers representing each encryption
 	'''
+	if encryptor == None:
+		if outputType == None or maxEncryptionRatio == None:
+			raise Exception("Encryptor and outputType or maxEncryptionRatio were all None")
+		else:
+			encryptor = ciphers.baseCipher(outputType, maxEncryptionRatio)
+
 	initialShape = encryptedDataArray.shape
 	encryptedDataArray = encryptedDataArray.ravel()
 	finalArray = np.array([np.zeros(encryptor.maxEncryptionRatio, dtype="uint8") for i in range(len(encryptedDataArray))])
-	
 	if encryptor.outputType == "string":
 		#for each encryption
 		for i in range(len(encryptedDataArray)):
@@ -70,7 +77,7 @@ def formatData(encryptor, encryptedDataArray):
 	elif encryptor.outputType == "num":
 		for i in range(len(finalArray)):
 			nums = [int(num) for num in encryptedDataArray[i]]
-			for j in range(len(finalArray)):
+			for j in range(len(finalArray[i])):
 				#if the final array index is < the length of this encryption, set the final array index to the ordinal number
 				if j < len(nums): 
 					finalArray[i][j] = nums[j]
@@ -79,7 +86,7 @@ def formatData(encryptor, encryptedDataArray):
 					break
 	else:
 		raise Exception(f"Unable to format data. Encryptor Output Type {encryptor.outputType} not recognized.")
-	return finalArray.reshape((initialShape[0] * initialShape[1], encryptor.maxEncryptionRatio))
+	return finalArray.reshape((np.prod(initialShape), encryptor.maxEncryptionRatio))
 
 def generateMLDataLabels(formattedDataArray, supportedEncryptorInputs): #supportedEncryptorInputs should be in order of abc, ABC, num, sym
 	'''

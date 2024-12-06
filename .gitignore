@@ -4,5 +4,6 @@ include/*
 lib/*
 share/*
 __pycache__/*
+CCCs/*
 pyvenv.cfg
 *.txt
