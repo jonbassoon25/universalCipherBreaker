@@ -3,9 +3,6 @@ import MLDC
 import numpy as np
 import joblib
 
-import ciphers #for testing
-from sklearn.tree import DecisionTreeClassifier #for testing
-
 
 def trainClf(encryptor, clf, TDTLR, testingPercent = 0.05):
 	yTrain, xTrain, yTest, xTest = MLDC.generateData(encryptor, round(TDTLR * (1 + testingPercent)), ((TDTLR * (1 + testingPercent) - TDTLR) / TDTLR))
@@ -90,7 +87,9 @@ def decryptUserMessages(encryptor, charClassifier):
 		print("Decryption Score: " + str(score(messageToEncrypt, result)))
 		print("\n")
 
+'''
 trainClf(ciphers.caesarCipher(), DecisionTreeClassifier(), 128)
 
 charClassifier = joblib.load(f"./CCCs/cipherCharacterClassifier.pkl")
 decryptUserMessages(ciphers.caesarCipher(), charClassifier)
+'''

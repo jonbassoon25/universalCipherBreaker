@@ -298,3 +298,107 @@ class caesarCipher(baseCipher):
 			else:
 				finalMessage += self.combinedChars[(self.combinedChars.index(char) + self.lshift) % len(self.combinedChars)]
 		return finalMessage
+
+class ZacCipher(baseCipher):
+	maxEncryptionRatio = 3
+
+	abcConvert = [f"{int(i//10)},{i%10}" for i in range(26, 9, -1)]
+	abcConvert += [str(i) for i in range(9, 0, -1)]
+
+	symConvert = ["0,", "0,0"]
+
+	def __init__(self):
+		self.ABC = [] #no uppercase letter support
+		self.str_num = [] #no number support
+		self.sym = [" ", "."] #limited symbol support
+
+	def _convert(self, message):
+		result = []
+		for i in range(len(message)):
+			if message[i] in self.abc:
+				result.append(self.abcConvert[self.abc.index(message[i])])
+			elif message[i] in self.sym:
+				result.append(self.symConvert[self.sym.index(message[i])])
+		print(result)
+
+		return result
+	
+	def _combine(self, convertedMessage):
+		result = ""
+		smashIndicies = []
+		i = 0
+		while i < len(convertedMessage) - 2:
+			result += convertedMessage[i]
+
+			if ((i == 0 or convertedMessage[i - 1] == ",") and 
+	   			(i == len(convertedMessage) - 2 or convertedMessage[i + 2] == ",") and 
+				(int(convertedMessage[i]) % 2 == int(convertedMessage[i + 1]) % 2) and
+				(not int(convertedMessage[i + 1]) == 0)
+			):
+				smashIndicies.append(i - len(smashIndicies)) #correct for length of new message
+				i += 1
+
+			i += 1
+
+		return result + (convertedMessage[-2:] if len(convertedMessage) >= 2 else convertedMessage), smashIndicies
+	
+	def _randomize(self, combinedMessage, smashIndicies):
+		combinedMessage = list(combinedMessage)
+		for i in range(len(combinedMessage) - 1):
+			if combinedMessage[i + 1] == "," and not combinedMessage[i] == "0" and not i in smashIndicies:
+				randNum = random.randint(1, 9)
+				if int(combinedMessage[i]) % 2 == 0:
+					if randNum % 2 == 0:
+						combinedMessage[i] = str(randNum)
+					elif randNum == 1:
+						combinedMessage[i] = "2"
+					else:
+						combinedMessage[i] = str(randNum - 1)
+				else:
+					if randNum % 2 == 1:
+						combinedMessage[i] = str(randNum)
+					else:
+						combinedMessage[i] = str(randNum - 1)
+		return ''.join(combinedMessage)
+	
+	def convert_to_chars(self, encryptedMessage):
+		chars = []
+		i = 0
+		while i < len(encryptedMessage) - 1: 
+			if encryptedMessage[i:i+2] == "0,":
+				chars.append(encryptedMessage[i:i+2])
+				i += 1
+			elif encryptedMessage[i + 1] == "," and not i + 1 == len(encryptedMessage) - 1:
+				chars.append(encryptedMessage[i:i+3])
+				i += 1
+			elif encryptedMessage[i + 1] == ",":
+				chars.append(encryptedMessage[i:i+2])
+				i += 1
+			elif encryptedMessage[i] == ",":
+				chars.append(encryptedMessage[i:i+2])
+				i += 1
+			elif not i == 0 and not encryptedMessage[i - 1] == "," and not encryptedMessage[i + 1] == ",":
+				chars.append(encryptedMessage[i])
+			elif not i == 0 and encryptedMessage[i - 1] == ",":
+				chars.append(encryptedMessage[i])
+
+			i += 1
+
+		return chars
+				
+
+	def to_cipher(self, message):
+		message = message.lower()
+		converted = ''.join(self._convert(message))
+		print(converted)
+		combined, smi = self._combine(converted)
+		print(combined, smi)
+		randomized = self._randomize(combined, smi)
+		print(randomized)
+		return randomized
+
+	def from_cipher(self, encryptedMessage):
+		pass
+
+#zc = ZacCipher()
+#print(zc.convert_to_chars(zc.to_cipher("hello world")))
