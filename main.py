@@ -28,16 +28,16 @@ import cipherPredictor
 
 #max run size < 1048576 before zsh: killed error. Not enough RAM
 #multiRun(runs, clf(), "", 1, "compressed")
-cipher = ciphers.caesarCipher()
+cipher = ciphers.ZacCipher()
 
 #extremly short run range (2^1 - 2^6)
-runs = [2 ** i for i in range(1, 6)]
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 12)
+#runs = [2 ** i for i in range(1, 6)]
+#MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 12)
 
 #short run range (2^6 - 2^11)
 
 runs = [2 ** i for i in range(6, 12)]
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 6)
+MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 3)
 
 #medium run range (2^12 - 2^17)
 runs = [2 ** i for i in range(12, 18)]
