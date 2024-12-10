@@ -110,7 +110,7 @@ def multiRun(trainingDataToLetterRatios, encryptor, clf, params, trainingReps = 
 		for k in range(trainingReps):
 			#1st calculation to find set the TDTLR to the ratio of training to testing data
 			#2nd calculation to find testing percent to make currentTDTLR for training data instead of for testing data
-			yTrain, xTrain, yTest, xTest = MLDC.generateData(encryptor, round(currentTDTLR * (1 + testingPercent)), ((currentTDTLR * (1 + testingPercent) - currentTDTLR) / currentTDTLR))
+			yTrain, xTrain, yTest, xTest = MLDC.generateData(encryptor, currentTDTLR, ((currentTDTLR * (1 + testingPercent) - currentTDTLR) / currentTDTLR))
 
 			clf, score, trainingTime = runML(xTrain, yTrain, xTest, yTest, clf)
 

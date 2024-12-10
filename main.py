@@ -29,10 +29,15 @@ import cipherPredictor
 #max run size < 1048576 before zsh: killed error. Not enough RAM
 #multiRun(runs, clf(), "", 1, "compressed")
 cipher = ciphers.caesarCipher()
+
+#extremly short run range (2^1 - 2^6)
+runs = [2 ** i for i in range(1, 6)]
+MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 12)
+
 #short run range (2^6 - 2^11)
 
 runs = [2 ** i for i in range(6, 12)]
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 1)
+MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 6)
 
 #medium run range (2^12 - 2^17)
 runs = [2 ** i for i in range(12, 18)]
@@ -62,13 +67,13 @@ resultAnalysis.compareClassifierParameters("caesarCipher", "DecisionTreeClassifi
 
 #/------------------------------------------------------------------------------------------------/
 #Cipher Breaker Trainer
-#'''
+'''
 trainingDataToLetterRatio = 256
 
 cipher = ciphers.caesarCipher()
 cipherBreaker.trainClf(cipher, DecisionTreeClassifier(), 128)
 
-#'''
+'''
 
 #/------------------------------------------------------------------------------------------------/
 #Cipher Breaker
@@ -92,11 +97,11 @@ plotAnalysis(ciphers.caesarCipher(), analysis)
 
 #/------------------------------------------------------------------------------------------------/
 #Breaker Predictor
-#'''
+'''
 print("Loading Model...")
 #clf = joblib.load("./CCCs/cipherCharacterClassifier.pkl")
 clf = charClassifier = joblib.load(f"./CCCs/saved/uncompressed/clf-3.pkl")
 cipher = ciphers.uncompressedCustomCipher()
 
 cipherPredictor.predictUserInput(cipher, clf, includePredictedTextAsWords = False) #third option has to be true if orignal text contains non-words or unknown words
-#'''
+ '''
