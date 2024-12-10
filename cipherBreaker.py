@@ -86,10 +86,3 @@ def decryptUserMessages(encryptor, charClassifier):
 		print("Decrypted Message:\n\t" + result)
 		print("Decryption Score: " + str(score(messageToEncrypt, result)))
 		print("\n")
-
-'''
-trainClf(ciphers.caesarCipher(), DecisionTreeClassifier(), 128)
-
-charClassifier = joblib.load(f"./CCCs/cipherCharacterClassifier.pkl")
-decryptUserMessages(ciphers.caesarCipher(), charClassifier)
-'''

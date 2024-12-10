@@ -113,12 +113,3 @@ def plotAnalysis(encryptor, analysis):
 
 
 	plt.show()
-	
-'''
-numTests = 5000 #number of times each character is tested for accuracy
-charClassifier = joblib.load("./CCCs/cipherCharacterClassifier.pkl")
-#charClassifier = joblib.load(f"./CCCs/saved/clf-1.pkl")
-
-analysis = analyze(ciphers.caesarCipher(), charClassifier, numTests, 0.0)
-plotAnalysis(ciphers.caesarCipher(), analysis)
-'''

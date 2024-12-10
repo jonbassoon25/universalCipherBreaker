@@ -213,5 +213,3 @@ def compareClassifiers(encryptorName, classifierNames = [], compare = "score"):
 				for k in range(3):
 					axis[i // 3, k].set_ylim((0, math.ceil(highestTime)))
 	plt.show()
-	
-compareClassifierParameters("caesarCipher", "DecisionTreeClassifier", [], "score")

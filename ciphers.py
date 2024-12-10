@@ -379,14 +379,13 @@ class ZacCipher(baseCipher):
 				i += 1
 			elif not i == 0 and not encryptedMessage[i - 1] == "," and not encryptedMessage[i + 1] == ",":
 				chars.append(encryptedMessage[i])
-			elif not i == 0 and encryptedMessage[i - 1] == ",":
+			elif i >= 1 and encryptedMessage[i - 2:i] == "0,":
 				chars.append(encryptedMessage[i])
 
 			i += 1
 
 		return chars
 				
-
 	def to_cipher(self, message):
 		message = message.lower()
 		converted = ''.join(self._convert(message))
@@ -396,9 +395,3 @@ class ZacCipher(baseCipher):
 		randomized = self._randomize(combined, smi)
 		print(randomized)
 		return randomized
-
-	def from_cipher(self, encryptedMessage):
-		pass
-
-#zc = ZacCipher()
-#print(zc.convert_to_chars(zc.to_cipher("hello world")))
