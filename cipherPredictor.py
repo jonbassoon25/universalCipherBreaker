@@ -1,9 +1,8 @@
+import warnings
 import numpy as np
 
 import cipherBreaker
 import modelAnalyzer
-import ciphers #for testing
-import joblib
 
 #determine specific failure probability
 def determineSFProbability(clfAnalysis, predictedChar, testChar):
@@ -69,7 +68,10 @@ def determineStringProbability(clfAnalysis, predictedString, testString):
 	
 	probability = 1 #probability that the testWord is the correct word
 	for i in range(len(predictedString)):
-		probability *= determineSFProbability(clfAnalysis, predictedString[i], testString[i]) #series of and = series of multiplication
+		if not (predictedString[i] in clfAnalysis.keys() and testString[i] in clfAnalysis.keys()):
+			probability = 0.0
+		else:
+			probability *= determineSFProbability(clfAnalysis, predictedString[i], testString[i]) #series of and = series of multiplication
 		
 		if probability == 0.0: #if the probability is 0, then stop
 			break
@@ -83,7 +85,7 @@ def predict(encryptor, clf, outputMessage, cutoff = 0.4, minOutput = 0, maxOutpu
 	Predicts mistranslations of the given output message from a clf
 
 	Parameters:
-        encryptor (cipher): encryptor that the cipher was trained on
+		encryptor (cipher): encryptor that the cipher was trained on
 		clf (clf): classifier used to generate the output message
 		outputMessage (str): predicted message returned by the classifier
 		cutoff (float): minimum confidence of words that will be displayed in predictions
@@ -95,7 +97,7 @@ def predict(encryptor, clf, outputMessage, cutoff = 0.4, minOutput = 0, maxOutpu
 		(npArray): array of possible message scores
 	'''
 	if minOutput > maxOutput and not maxOutput == -1:
-		raise Warning(f"Maximum output of {maxOutput} less than minimum output of {minOutput}. Setting maximum output to minimum output.")
+		warnings.warn(f"Maximum output of {maxOutput} less than minimum output of {minOutput}. Setting maximum output to minimum output.")
 		maxOutput = minOutput
 	
 	print("Analyzing Model...")
@@ -298,7 +300,7 @@ def predictUserInput(encryptor, charClassifier, includePredictedTextAsWords = Fa
 	Allows the user to input messages to encrypt, decryptes them using the provided decryption model, predicts possible messages based on its output an analysis, and then writes the results to a text file.
 
 	Parameters:
-        encryptor (cipher): encryptor that the classifier was trained on
+		encryptor (cipher): encryptor that the classifier was trained on
 		charClassifier (clf): trained decryption model
 		includePredictedTextAsWords (bool): should the predicted words be considered valid words when predicting possible messages
 	'''

@@ -319,7 +319,6 @@ class ZacCipher(baseCipher):
 				result.append(self.abcConvert[self.abc.index(message[i])])
 			elif message[i] in self.sym:
 				result.append(self.symConvert[self.sym.index(message[i])])
-		print(result)
 
 		return result
 	
@@ -389,9 +388,6 @@ class ZacCipher(baseCipher):
 	def to_cipher(self, message):
 		message = message.lower()
 		converted = ''.join(self._convert(message))
-		print(converted)
 		combined, smi = self._combine(converted)
-		print(combined, smi)
 		randomized = self._randomize(combined, smi)
-		print(randomized)
 		return randomized

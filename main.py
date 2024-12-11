@@ -16,7 +16,7 @@ import cipherPredictor
 
 #/------------------------------------------------------------------------------------------------/
 #MLRunner
-#'''
+'''
 #yTrain, xTrain, yTest, xTest = MLRunner.loadData("all")
 
 #runML(xTrain, yTrain, xTest, yTest, NearestCentroid("euclidean"))
@@ -51,7 +51,7 @@ runs = [2 ** i for i in range(6, 10)]
 
 #exceptions / long run time sets
 
-#'''
+'''
 #/------------------------------------------------------------------------------------------------/
 #Result Analysis
 '''
@@ -68,18 +68,16 @@ resultAnalysis.compareClassifierParameters("caesarCipher", "DecisionTreeClassifi
 #/------------------------------------------------------------------------------------------------/
 #Cipher Breaker Trainer
 '''
-trainingDataToLetterRatio = 256
+trainingDataToLetterRatio = 512
 
-cipher = ciphers.caesarCipher()
-cipherBreaker.trainClf(cipher, DecisionTreeClassifier(), 128)
+cipher = ciphers.ZacCipher()
+cipherBreaker.trainClf(cipher, DecisionTreeClassifier(), trainingDataToLetterRatio)
 
 '''
 
 #/------------------------------------------------------------------------------------------------/
 #Cipher Breaker
 '''
-
-
 charClassifier = joblib.load(f"./CCCs/cipherCharacterClassifier.pkl")
 decryptUserMessages(cipher, charClassifier)
 '''
@@ -99,9 +97,9 @@ plotAnalysis(ciphers.caesarCipher(), analysis)
 #Breaker Predictor
 '''
 print("Loading Model...")
-#clf = joblib.load("./CCCs/cipherCharacterClassifier.pkl")
-clf = charClassifier = joblib.load(f"./CCCs/saved/uncompressed/clf-3.pkl")
-cipher = ciphers.uncompressedCustomCipher()
+clf = joblib.load("./CCCs/cipherCharacterClassifier.pkl")
+#clf = charClassifier = joblib.load(f"./CCCs/saved/uncompressed/clf-3.pkl")
+cipher = ciphers.ZacCipher()
 
 cipherPredictor.predictUserInput(cipher, clf, includePredictedTextAsWords = False) #third option has to be true if orignal text contains non-words or unknown words
- '''
+'''
