@@ -7,3 +7,4 @@ __pycache__/*
 CCCs/*
 pyvenv.cfg
 *.txt
+.DS_Store
