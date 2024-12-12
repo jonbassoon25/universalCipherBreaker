@@ -34,7 +34,6 @@ def createCharacterEncryptions(encryptor, encryptionsPerLetter):
 		Returns:
 			(npArray): 2d array of encryptions with shape (num supported cipher chars, encryptionsPerLetter)
 	'''
-	print(encryptionsPerLetter)
 	characterEncryptions = []
 	for char in (encryptor.abc + encryptor.ABC + encryptor.str_num + encryptor.sym):
 		characterEncryptions.append(createSingleCharData(encryptor, char, encryptionsPerLetter))

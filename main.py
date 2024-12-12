@@ -28,13 +28,16 @@ import cipherPredictor
 
 #max run size < 1048576 before zsh: killed error. Not enough RAM
 #multiRun(runs, clf(), "", 1, "compressed")
-cipher = ciphers.ZacCipher()
+cipher = ciphers.customCipher()
 runs = [2 ** i for i in range(1, 12)] #custom run range
+
+
 
 #extremly short run range (2^1 - 2^6)
 #runs = [2 ** i for i in range(1, 6)]
-#MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 12)
+MLRunner.multiRun([1024], cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 1)
 
+quit()
 #short run range (2^6 - 2^11)
 
 #runs = [2 ** i for i in range(6, 12)]
@@ -53,14 +56,10 @@ MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "manhattan", 3)
 
 
 MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "uniform"), "5,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=50, weights = "uniform"), "50,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=100, weights = "uniform"), "100,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=200, weights = "uniform"), "200,uniform", 3)
+MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "uniform"), "9,uniform", 3)
 
 MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "distance"), "5,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=50, weights = "distance"), "50,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=100, weights = "distance"), "100,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=200, weights = "distance"), "200,distance", 3)
+MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "distance"), "9,distance", 3)
 
 MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 3)
 MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 3)
@@ -82,14 +81,10 @@ MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "manhattan", 3)
 
 
 MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "uniform"), "5,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=50, weights = "uniform"), "50,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=100, weights = "uniform"), "100,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=200, weights = "uniform"), "200,uniform", 3)
+MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "uniform"), "9,uniform", 3)
 
 MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "distance"), "5,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=50, weights = "distance"), "50,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=100, weights = "distance"), "100,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=200, weights = "distance"), "200,distance", 3)
+MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "distance"), "9,distance", 3)
 
 
 MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 3)
@@ -112,14 +107,10 @@ MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "manhattan", 3)
 
 
 MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "uniform"), "5,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=50, weights = "uniform"), "50,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=100, weights = "uniform"), "100,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=200, weights = "uniform"), "200,uniform", 3)
+MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "uniform"), "9,uniform", 3)
 
 MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "distance"), "5,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=50, weights = "distance"), "50,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=100, weights = "distance"), "100,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=200, weights = "distance"), "200,distance", 3)
+MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "distance"), "9,distance", 3)
 
 
 MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 3)
@@ -142,14 +133,10 @@ MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "manhattan", 3)
 
 
 MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "uniform"), "5,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=50, weights = "uniform"), "50,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=100, weights = "uniform"), "100,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=200, weights = "uniform"), "200,uniform", 3)
+MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "uniform"), "9,uniform", 3)
 
 MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "distance"), "5,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=50, weights = "distance"), "50,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=100, weights = "distance"), "100,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=200, weights = "distance"), "200,distance", 3)
+MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "distance"), "9,distance", 3)
 
 
 MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 3)
