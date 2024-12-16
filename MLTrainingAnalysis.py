@@ -223,4 +223,4 @@ def graph(encryptors = ["caesarCipher", "ZacCipher", "uncompressedCustomCipher",
 			compareClassifierParameters(encryptor, classifier, [], against, False)
 	plt.show()
 
-graph()
+compareClassifierParameters("uncompressedCustomCipher", "DecisionTreeClassifier")
