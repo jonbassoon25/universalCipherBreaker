@@ -4,12 +4,14 @@ import joblib
 from sklearn.neighbors import NearestCentroid, KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB, MultinomialNB
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
 import ciphers
 import MLRunner
+import MLTrainingAnalysis
 import cipherBreaker
 import modelAnalyzer
 import cipherPredictor
@@ -17,6 +19,9 @@ import cipherPredictor
 #/------------------------------------------------------------------------------------------------/
 #MLRunner
 #'''
+#KNeighbors takes almost no time to train, but takes ages to predict. Same with SVC rbf
+
+
 #yTrain, xTrain, yTest, xTest = MLRunner.loadData("all")
 
 #runML(xTrain, yTrain, xTest, yTest, NearestCentroid("euclidean"))
@@ -28,121 +33,61 @@ import cipherPredictor
 
 #max run size < 1048576 before zsh: killed error. Not enough RAM
 #multiRun(runs, clf(), "", 1, "compressed")
-cipher = ciphers.customCipher()
+#cipher = ciphers.customCipher()
 runs = [2 ** i for i in range(1, 12)] #custom run range
 
 
 
 #extremly short run range (2^1 - 2^6)
 #runs = [2 ** i for i in range(1, 6)]
-MLRunner.multiRun([1024], cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 1)
+#MLRunner.multiRun([1024], cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 1)
 
-quit()
 #short run range (2^6 - 2^11)
 
 #runs = [2 ** i for i in range(6, 12)]
+#'''
 cipher = ciphers.customCipher()
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="entropy", splitter="best"), "entropy,best", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="log_loss", splitter="best"), "log_loss,best", 3)
-
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="random"), "gini,random", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="entropy", splitter="random"), "entropy,random", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="log_loss", splitter="random"), "log_loss,random", 3)
+#MLRunner.multiRun(runs, cipher, AdaBoostClassifier(DecisionTreeClassifier(criterion="gini", splitter="best"), 50), "DecisionTreeClassifier(gini,best),50", 3)
+#MLRunner.multiRun(runs, cipher, QuadraticDiscriminantAnalysis(), "", 3)
 
 
-MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "euclidean", 3)
-MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "manhattan", 3)
 
-
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "uniform"), "5,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "uniform"), "9,uniform", 3)
-
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "distance"), "5,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "distance"), "9,distance", 3)
-
-MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="sigmoid"), "sigmoid", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 3)
 
 cipher = ciphers.uncompressedCustomCipher()
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="entropy", splitter="best"), "entropy,best", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="log_loss", splitter="best"), "log_loss,best", 3)
-
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="random"), "gini,random", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="entropy", splitter="random"), "entropy,random", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="log_loss", splitter="random"), "log_loss,random", 3)
 
 
-MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "euclidean", 3)
-MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "manhattan", 3)
-
-
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "uniform"), "5,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "uniform"), "9,uniform", 3)
-
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "distance"), "5,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "distance"), "9,distance", 3)
-
-
-MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="sigmoid"), "sigmoid", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 3)
 
 cipher = ciphers.caesarCipher()
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="entropy", splitter="best"), "entropy,best", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="log_loss", splitter="best"), "log_loss,best", 3)
-
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="random"), "gini,random", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="entropy", splitter="random"), "entropy,random", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="log_loss", splitter="random"), "log_loss,random", 3)
 
 
-MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "euclidean", 3)
-MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "manhattan", 3)
-
-
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "uniform"), "5,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "uniform"), "9,uniform", 3)
-
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "distance"), "5,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "distance"), "9,distance", 3)
-
-
-MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="sigmoid"), "sigmoid", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 3)
 
 cipher = ciphers.ZacCipher()
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="best"), "gini,best", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="entropy", splitter="best"), "entropy,best", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="log_loss", splitter="best"), "log_loss,best", 3)
 
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="gini", splitter="random"), "gini,random", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="entropy", splitter="random"), "entropy,random", 3)
-MLRunner.multiRun(runs, cipher, DecisionTreeClassifier(criterion="log_loss", splitter="random"), "log_loss,random", 3)
+#SVC Runs (they take a long time)
+cipher = ciphers.caesarCipher()
+#MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 1)
+#MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 1)
+MLRunner.multiRun(runs[-1:], cipher, SVC(kernel="sigmoid"), "sigmoid", 1)
+MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 1)
 
+cipher = ciphers.ZacCipher()
+MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 1)
+MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 1)
+MLRunner.multiRun(runs, cipher, SVC(kernel="sigmoid"), "sigmoid", 1)
+MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 1)
 
-MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "euclidean", 3)
-MLRunner.multiRun(runs, cipher, NearestCentroid("euclidean"), "manhattan", 3)
+cipher = ciphers.customCipher()
+MLRunner.multiRun(runs[5:], cipher, SVC(kernel="linear"), "linear", 1)
+MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 1)
+MLRunner.multiRun(runs, cipher, SVC(kernel="sigmoid"), "sigmoid", 1)
+MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 1)
 
+cipher = ciphers.uncompressedCustomCipher()
+MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 1)
+MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 1)
+MLRunner.multiRun(runs, cipher, SVC(kernel="sigmoid"), "sigmoid", 1)
+MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 1)
 
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "uniform"), "5,uniform", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "uniform"), "9,uniform", 3)
-
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=5, weights = "distance"), "5,distance", 3)
-MLRunner.multiRun(runs, cipher, KNeighborsClassifier(n_neighbors=9, weights = "distance"), "9,distance", 3)
-
-
-MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="sigmoid"), "sigmoid", 3)
-MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 3)
 
 #medium run range (2^12 - 2^17)
 runs = [2 ** i for i in range(12, 18)]
@@ -159,16 +104,17 @@ runs = [2 ** i for i in range(6, 10)]
 #'''
 #/------------------------------------------------------------------------------------------------/
 #Result Analysis
-'''
-resultAnalysis.compareClassifierParameters("caesarCipher", "DecisionTreeClassifier", [], "score", "all")
-#resultAnalysis.compareClassifierParameters("caesarCipher", "GaussianNB", [], "score", "all")
-#resultAnalysis.compareClassifierParameters("caesarCipher", "KNeighborsClassifier", ["distance"], "score", "all")
-#resultAnalysis.compareClassifierParameters("caesarCipher", "NearestCentroid", [], "score", "all")
-#resultAnalysis.compareClassifierParameters("caesarCipher", "RandomForestClassifier", [], "score", "all")
-#resultAnalysis.compareClassifierParameters("caesarCipher", "SVC", [], "time", "all")
+#'''
+cipherName = "caesarCipher" #uncompressedCustomCipher customCipher ZacCipher caesarCipher
+#MLTrainingAnalysis.compareClassifierParameters(cipherName, "DecisionTreeClassifier", [], "score")
+#MLTrainingAnalysis.compareClassifierParameters(cipherName, "GaussianNB", [], "score")
+#MLTrainingAnalysis.compareClassifierParameters(cipherName, "KNeighborsClassifier", [], "score")
+#MLTrainingAnalysis.compareClassifierParameters(cipherName, "NearestCentroid", [], "score")
+#MLTrainingAnalysis.compareClassifierParameters(cipherName, "RandomForestClassifier", [], "score")
+MLTrainingAnalysis.compareClassifierParameters(cipherName, "SVC", [], "score")
 
 #resultAnalysis.compareClassifiers("caesarCipher", ["DecisionTreeClassifier-entropy,random", "SVC-linear,1.0,3,scale"], "score", "all", "compressed")
-'''
+#'''
 
 #/------------------------------------------------------------------------------------------------/
 #Cipher Breaker Trainer
