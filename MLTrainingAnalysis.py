@@ -217,10 +217,10 @@ def compareClassifiers(encryptorName, classifierNames = [], compare = "score"):
 					axis[i // 3, k].set_ylim((0, math.ceil(highestTime)))
 	plt.show()
 
-def graph(encryptors = ["caesarCipher", "ZacCipher", "uncompressedCustomCipher", "customCipher"], classifiers = ["DecisionTreeClassifier", "KNeighborsClassifier", "NearestCentroid", "SVC"], against = "score"):
+def graph(encryptors = ["caesarCipher", "ZacCipher", "uncompressedCustomCipher", "customCipher"], classifiers = ["DecisionTreeClassifier", "KNeighborsClassifier", "NearestCentroid", "GaussianNB", "SVC"], against = "score"):
 	for encryptor in encryptors:
 		for classifier in classifiers:
 			compareClassifierParameters(encryptor, classifier, [], against, False)
 	plt.show()
 
-compareClassifierParameters("customCipher", "DecisionTreeClassifier")
+#compareClassifierParameters("uncompressedCustomCipher", "SVC")

@@ -46,47 +46,39 @@ runs = [2 ** i for i in range(1, 12)] #custom run range
 
 #runs = [2 ** i for i in range(6, 12)]
 #'''
-cipher = ciphers.customCipher()
+cipher = ciphers.caesarCipher()
 #MLRunner.multiRun(runs, cipher, AdaBoostClassifier(DecisionTreeClassifier(criterion="gini", splitter="best"), 50), "DecisionTreeClassifier(gini,best),50", 3)
 #MLRunner.multiRun(runs, cipher, QuadraticDiscriminantAnalysis(), "", 3)
 
-
-
-
-cipher = ciphers.uncompressedCustomCipher()
-
-
-
-cipher = ciphers.caesarCipher()
-
+#MLRunner.multiRun(runs, cipher, GaussianNB(), "", 3)
 
 
 cipher = ciphers.ZacCipher()
+
+#MLRunner.multiRun(runs, cipher, GaussianNB(), "", 3)
+
+cipher = ciphers.uncompressedCustomCipher()
+
+#MLRunner.multiRun(runs, cipher, GaussianNB(), "", 3)
+
+cipher = ciphers.customCipher()
+
+#MLRunner.multiRun(runs, cipher, GaussianNB(), "", 3)
+
+
 
 #SVC Runs (they take a long time)
 cipher = ciphers.caesarCipher()
-#MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 1)
-#MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 1)
-MLRunner.multiRun(runs[-1:], cipher, SVC(kernel="sigmoid"), "sigmoid", 1)
-MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 1)
+
 
 cipher = ciphers.ZacCipher()
-MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 1)
-MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 1)
-MLRunner.multiRun(runs, cipher, SVC(kernel="sigmoid"), "sigmoid", 1)
-MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 1)
+
 
 cipher = ciphers.customCipher()
-MLRunner.multiRun(runs[5:], cipher, SVC(kernel="linear"), "linear", 1)
-MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 1)
-MLRunner.multiRun(runs, cipher, SVC(kernel="sigmoid"), "sigmoid", 1)
-MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 1)
+
 
 cipher = ciphers.uncompressedCustomCipher()
-MLRunner.multiRun(runs, cipher, SVC(kernel="linear"), "linear", 1)
-MLRunner.multiRun(runs, cipher, SVC(kernel="rbf"), "rbf", 1)
-MLRunner.multiRun(runs, cipher, SVC(kernel="sigmoid"), "sigmoid", 1)
-MLRunner.multiRun(runs, cipher, SVC(kernel="poly"), "poly", 1)
+
 
 
 #medium run range (2^12 - 2^17)
@@ -111,9 +103,11 @@ cipherName = "caesarCipher" #uncompressedCustomCipher customCipher ZacCipher cae
 #MLTrainingAnalysis.compareClassifierParameters(cipherName, "KNeighborsClassifier", [], "score")
 #MLTrainingAnalysis.compareClassifierParameters(cipherName, "NearestCentroid", [], "score")
 #MLTrainingAnalysis.compareClassifierParameters(cipherName, "RandomForestClassifier", [], "score")
-MLTrainingAnalysis.compareClassifierParameters(cipherName, "SVC", [], "score")
+#MLTrainingAnalysis.compareClassifierParameters(cipherName, "SVC", [], "score")
 
-#resultAnalysis.compareClassifiers("caesarCipher", ["DecisionTreeClassifier-entropy,random", "SVC-linear,1.0,3,scale"], "score", "all", "compressed")
+#MLTrainingAnalysis.compareClassifiers("caesarCipher", ["DecisionTreeClassifier-entropy,random", "SVC-linear,1.0,3,scale"], "score", "all", "compressed")
+
+MLTrainingAnalysis.graph(classifiers=["GaussianNB"])
 #'''
 
 #/------------------------------------------------------------------------------------------------/
