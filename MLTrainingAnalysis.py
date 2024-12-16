@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import math
 import util
 
-def compareClassifierParameters(encryptorName, classifierName, params = [], against = "score"):
+def compareClassifierParameters(encryptorName, classifierName, params = [], against = "score", showAtEnd = True):
 	'''
 	Graphs impact of different parameters across a constant classifier type
 
@@ -52,6 +52,7 @@ def compareClassifierParameters(encryptorName, classifierName, params = [], agai
 	
 	#plot data
 	figure, axis = plt.subplots(math.ceil(len(resultKeys)/3), 3)
+	figure.canvas.manager.set_window_title(f"{encryptorName}-{classifierName}")
 
 	highestTime = 0
 	for i in range(0, len(resultKeys), 3):
@@ -107,7 +108,9 @@ def compareClassifierParameters(encryptorName, classifierName, params = [], agai
 			for i in range(0, len(resultKeys), 3):
 				for k in range(3):
 					axis[i // 3, k].set_ylim((0, math.ceil(highestTime)))
-	plt.show()
+
+	if showAtEnd:
+		plt.show()
 
 #classifer names passed in as ["DecisionTreeClassifier-gini,random", "GaussianNB-", "SVC-linear,1.0,3,scale"]
 def compareClassifiers(encryptorName, classifierNames = [], compare = "score"):
@@ -213,3 +216,11 @@ def compareClassifiers(encryptorName, classifierNames = [], compare = "score"):
 				for k in range(3):
 					axis[i // 3, k].set_ylim((0, math.ceil(highestTime)))
 	plt.show()
+
+def graph(encryptors = ["caesarCipher", "ZacCipher", "uncompressedCustomCipher", "customCipher"], classifiers = ["DecisionTreeClassifier", "KNeighborsClassifier", "NearestCentroid", "SVC"], against = "score"):
+	for encryptor in encryptors:
+		for classifier in classifiers:
+			compareClassifierParameters(encryptor, classifier, [], against, False)
+	plt.show()
+
+graph()
