@@ -18,7 +18,7 @@ import cipherPredictor
 
 #/------------------------------------------------------------------------------------------------/
 #MLRunner
-#'''
+'''
 #KNeighbors takes almost no time to train, but takes ages to predict. Same with SVC rbf
 
 
@@ -45,7 +45,7 @@ runs = [2 ** i for i in range(1, 12)] #custom run range
 #short run range (2^6 - 2^11)
 
 #runs = [2 ** i for i in range(6, 12)]
-#'''
+
 cipher = ciphers.caesarCipher()
 #MLRunner.multiRun(runs, cipher, AdaBoostClassifier(DecisionTreeClassifier(criterion="gini", splitter="best"), 50), "DecisionTreeClassifier(gini,best),50", 3)
 #MLRunner.multiRun(runs, cipher, QuadraticDiscriminantAnalysis(), "", 3)
@@ -93,10 +93,10 @@ runs = [2 ** i for i in range(6, 10)]
 
 #exceptions / long run time sets
 
-#'''
+'''
 #/------------------------------------------------------------------------------------------------/
 #Result Analysis
-#'''
+'''
 cipherName = "caesarCipher" #uncompressedCustomCipher customCipher ZacCipher caesarCipher
 #MLTrainingAnalysis.compareClassifierParameters(cipherName, "DecisionTreeClassifier", [], "score")
 #MLTrainingAnalysis.compareClassifierParameters(cipherName, "GaussianNB", [], "score")
@@ -107,8 +107,8 @@ cipherName = "caesarCipher" #uncompressedCustomCipher customCipher ZacCipher cae
 
 #MLTrainingAnalysis.compareClassifiers("caesarCipher", ["DecisionTreeClassifier-entropy,random", "SVC-linear,1.0,3,scale"], "score", "all", "compressed")
 
-MLTrainingAnalysis.graph(classifiers=["GaussianNB"])
-#'''
+MLTrainingAnalysis.graph(classifiers=["RandomForestClassifier"])
+'''
 
 #/------------------------------------------------------------------------------------------------/
 #Cipher Breaker Trainer
@@ -134,17 +134,17 @@ numTests = 5000 #number of times each character is tested for accuracy
 charClassifier = joblib.load("./CCCs/cipherCharacterClassifier.pkl")
 #charClassifier = joblib.load(f"./CCCs/saved/clf-1.pkl")
 
-analysis = analyze(ciphers.caesarCipher(), charClassifier, numTests, 0.0)
-plotAnalysis(ciphers.caesarCipher(), analysis)
+analysis = modelAnalyzer.analyze(ciphers.caesarCipher(), charClassifier, numTests, 0.0)
+modelAnalyzer.plotAnalysis(ciphers.caesarCipher(), analysis)
 '''
 
 #/------------------------------------------------------------------------------------------------/
 #Breaker Predictor
-'''
+#'''
 print("Loading Model...")
 #clf = joblib.load("./CCCs/cipherCharacterClassifier.pkl")
 clf = charClassifier = joblib.load(f"./CCCs/saved/uncompressed/clf-3.pkl")
 cipher = ciphers.uncompressedCustomCipher()
 
 cipherPredictor.predictUserInput(cipher, clf, includePredictedTextAsWords = False) #third option has to be true if orignal text contains non-words or unknown words
-'''
+#'''
